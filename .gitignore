@@ -1,0 +1,15 @@
+#Python virtual Environment
+venv/
+.env/
+.venv/
+
+#Python cache 
+__pycache__/
+*.py[cd]
+
+#Jupyter checkpoints 
+.ipynb_checkpoints/
+
+#Environment Files
+.env
+*.env
