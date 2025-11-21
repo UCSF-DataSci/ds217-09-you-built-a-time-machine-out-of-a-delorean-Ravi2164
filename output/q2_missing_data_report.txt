@@ -1,0 +1,62 @@
+
+TODO: Document your missing data handling:
+- How many missing values did you find?
+We found : 323 missing count
+- What percentage of data was missing?
+Missing value percentage96.42%
+- Which method did you use to fill missing values?
+We used a rolling mean with 3 days imputation method with forward fill. This coputes the mean of the current day and the preceding 2 days(capturing short term changes) while filling the values with those before measured.
+- Why did you choose that method? Because captures short-term flactuations and is more realistic. As shown in the example (at the end), all missing valued are filled,and local treands are preserved. Thus, this method is 
+sutable for patient vital sign time series.
+- What are the pros/cons of your approach?
+Pros: This approach is able to capture local trends rather than simply carrying forward the last observation, reducing noise and increasing the efficiency of our data. 
+Limits: This approach is not able to handle extremely long gaps only with rolling mean.
+- Include examples showing missing data patterns
+Examples : 
+with missing values :
+date
+2023-01-31    98.777
+2023-02-01       NaN
+2023-02-02       NaN
+2023-02-03       NaN
+2023-02-04       NaN
+Freq: D, Name: temperature, dtype: float64
+
+After rolling mean imputation:
+date
+2023-01-31    98.777
+2023-02-01    98.777
+2023-02-02    98.777
+2023-02-03    98.777
+2023-02-04    98.777
+Freq: D, Name: temperature, dtype: float64
+
+
+
+Missing patterns:
+Missing by month:
+date
+1      0
+2     27
+3     30
+4     29
+5     30
+6     29
+7     30
+8     30
+9     29
+10    30
+11    29
+12    30
+Name: temperature, dtype: int64
+
+Missing by day of week:
+date
+0    46
+1    45
+2    47
+3    46
+4    46
+5    47
+6    46
+Name: temperature, dtype: int64

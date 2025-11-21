@@ -1,0 +1,26 @@
+
+TODO: Document your timezone operations:
+- What timezone was your original data in?
+The original dataset(patient_vitals) has timestamps that were naive,and did not have any timezone information attached. This would 
+create ambiguity;particularly, in multi-site clinical trials causing important inconsistencies across different geographica locations.
+Herein, initally was inspected and ensured that the idnex contained datetime. Then, the timestamps were converted into a timezone-aware format,
+which would support the analysis across different sites. 
+- How did you localize the data?
+The timestamps were localised: patient_vitals_tz.index = patient_vitals_tz.index.tz_localize('UTC')
+This would set all timestamps in a coordinated universal time by initially assinging a timezone w.o 
+shifting the "time values". Otherwise, conveting w.o initially localizing the time-values would result in 
+incorrent/erros for future comaprisons. 
+- What timezone did you convert to?
+The data was converted from UTC to US eastern time : patient_vitals_tz_eastern = patient_vitals_tz.tz__convert("US/Easteren")
+this offsets the target timezones and as well includes daylight saving time applcation.
+- What issues did you encounter with DST? (Note: Using UTC avoids DST ambiguity)
+DST (daylight saving time) is complex beacuse for example during spring transition, clocks is set one hour forward, and this full hour does
+not exist in local time(in other regional locations). When the timestamps are stored in UTC, DST ambiguity is avoided; UTC does not store the daylight as saving time.
+And, only when converted to local timezones would pandas handle the DST corrections.
+- Include at least one example showing a datetime before and after conversion
+Eaxmple before UTC: '2023-03-12 10:00:00 + 00:00'
+After convertion-US Eastern time: 2023-03-12 05:00:00-07:00
+- Explain why UTC is recommended as the base timezone for storing temporal data
+As mentioned previously, UTC does not store the data based on observed daylight saving time, avdoiding ambiguity; rather the data is saved in a constisten way(despite the location).
+Thus, keeping all stored timestamps in UCT, makes the data comparable and unambigiguous. Convertion to local time may be applied later as needed.
+And, storing in UTC becomes particularly important in timesseries anlaysis, and multi-site studies.
